@@ -7,11 +7,13 @@
 			int[] nums1 = [1, 2, 3, 0, 0, 0];
 			int[] nums2 = [2, 5, 6];
 
-			int m = nums1.Length;
-			int n = nums2.Length;
+			int m = 3;
+			int n = 3;
 
 			SortedArrayMerger merger = new();
 			merger.Merge(nums1, m , nums2, n);
+
+			Console.ReadKey();
 		}
 	}
 
@@ -19,40 +21,32 @@
 	{
 		public void Merge(int[] nums1, int m, int[] nums2, int n)
 		{
-			int pointer1 = 0;
-			if (m > 0)
+			int pointer1 = m - 1;
+			int pointer2 = n - 1;
+			int targetIndex = m + n - 1;
+
+			while(pointer1 >= 0 && pointer2 >= 0)
 			{
-				pointer1 = nums1[0];
-			}
-
-			int pointer2 = 0;
-			if (n > 0)
-			{
-				pointer2 = nums2[0];
-			}
-
-			int pointer2Index = 0;
-			int pointer1Index = 0;
-
-			int[] result = new int[m + n];
-
-			for (int i = 0; i < nums1.Length - 1; i++)
-			{
-				if (pointer1 <= pointer2 && pointer1Index < m)
+				if (nums1[pointer1] > nums2[pointer2])
 				{
-					result[i] = pointer1;
-					pointer1Index++;
-					pointer1 = nums1[pointer1Index];
+					nums1[targetIndex] = nums1[pointer1];
+					pointer1--;
 				}
-				else if (pointer2Index < n)
+				else
 				{
-					result[i] = pointer2;
-					pointer2Index++;
-					pointer2 = nums2[pointer2Index];
+					nums1[targetIndex] = nums2[pointer2];
+					pointer2--;
 				}
+
+				targetIndex--;
 			}
 
-			nums1 = result;
+			while (pointer2 >= 0)
+			{
+				nums1[targetIndex] = nums2[pointer2];
+				pointer2--;
+				targetIndex--;
+			}
 		}
 	}
 }
